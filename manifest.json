@@ -1,0 +1,60 @@
+﻿{
+  "name" : "facebook 語意分析",
+  "version" : "1.0.1",
+  "manifest_version": 2,
+  "description" : "facebook 語意分析",
+  "background" : {
+    "scripts" : ["js/background.js", "js/commandsListener.js"],
+    "persistent" : true
+    //"page" : "background.html"
+  },
+  "browser_action" :
+  {
+    "default_icon" : {
+      "19" : "images/facebook_128.png",
+      "38" : "images/facebook_128.png"
+    },
+    "default_title" : "facebook 語意分析"
+    //"default_popup": "popup.html"
+  },
+  //"content_security_policy" : "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; img-src *",
+  "permissions" : [
+    "tabs",
+    "https://www.facebook.com/*"
+  ],
+  "content_scripts" : [
+    {
+      "matches" : [
+        "https://www.facebook.com/*"
+      ],
+      "js" : [
+        "js/jquery-1.11.0.min.js",
+        "js/alertify.min.js",
+        "js/contentscript.js"
+      ],
+      "css" : [
+        "css/alertify.core.css",
+        "css/alertify.bootstrap.css"
+      ],
+      "run_at" : "document_idle",
+      "all_frames" : false
+    }
+  ],
+  "icons" : {
+    "16" : "images/facebook_128.png",
+    "48" : "images/facebook_128.png",
+    "128" : "images/facebook_128.png"
+  },
+  "commands" : {
+    "reload_extension" : {
+      "suggested_key" : {
+        "default" : "Ctrl+Shift+Q",
+        "windows" : "Ctrl+Shift+Q",
+        "mac" : "MacCtrl+Shift+Q",
+        "chromeos" : "Ctrl+Shift+Q",
+        "linux" : "Ctrl+Shift+Q"
+      },
+      "description" : "shortcut for reloading extensions"
+    }
+  }
+}
