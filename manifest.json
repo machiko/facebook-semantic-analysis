@@ -1,6 +1,6 @@
 ﻿{
   "name" : "facebook 語意分析",
-  "version" : "1.0.1",
+  "version" : "1.1",
   "manifest_version": 2,
   "description" : "facebook 語意分析",
   "background" : {
