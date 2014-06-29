@@ -80,6 +80,7 @@ function userContent() {
             content_wrapper.get(0).ckip = ""; //內容 ckip
             content_wrapper.get(0).ckip_status = false; //內容送出 ckip 狀態
             content_obj_list.push(content_wrapper.get(0));
+            console.log(content_obj_list);
             //timer start
             countSec(0, content_index);
 
