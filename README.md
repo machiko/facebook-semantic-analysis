@@ -27,3 +27,5 @@ discuss :
 ###20140629 :
 
 1. server run java, and response
+
+程式碼架構 https://www.evernote.com/shard/s88/sh/f6cecc1d-bfd4-40d5-bcf2-c432196774f9/b99866d80821d20390252170607dcf09
