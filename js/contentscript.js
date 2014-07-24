@@ -39,7 +39,8 @@ function addEvent(obj, type, fn) {
  */
 function userContent() {
     var scroll_top = Number($(document).scrollTop()); //現在 scroll 位置
-    var content_wrapper = $("div[data-insertion-position=" + content_index + "]");
+    var content_wrapper = $("div[data-insertion-position]").eq(content_index);
+    // console.log(content_index);
 
     for (var i = 0; i < content_obj_list.length; i++) {
 
@@ -51,20 +52,24 @@ function userContent() {
             if (content_obj_list[i].isShow == true) {
                 content_obj_list[i].isShow = false;
 
-                //console.log("第" + i + "個內容 is show :" + content_obj_list[i].isShow);
+                // console.log("第" + i + "個內容 is show :" + content_obj_list[i].isShow);
+                // if (content_wrapper.length == 0) {
+                //     content_index ++;
+                // }
                 window.clearInterval(content_obj_list[i].timer_id); //停止 timer
             }
         } else {
             if (content_obj_list[i].isShow == false) {
                 content_obj_list[i].isShow = true;
 
-                //console.log("第" + i + "個內容 is show :" + content_obj_list[i].isShow);
+                // console.log("第" + i + "個內容 is show :" + content_obj_list[i].isShow);
                 countSec(content_obj_list[i].timer_count, i); //重新啟動 timer
             }
         }
     }
 
     //須有此物件才進行判斷，因為 fb 會在可視的內容物件上面加上 data-insertion-position 的 屬性
+    // console.log(content_wrapper.length);
     if (content_wrapper.length > 0) {
         var content_wrapper_offsetTop = content_wrapper.get(0).offsetTop;
         var content_wrapper_offsetHeight = content_wrapper.get(0).offsetHeight;
@@ -73,6 +78,7 @@ function userContent() {
             //加上新屬性
             content_wrapper.get(0).index = content_index; //內容 index
             content_wrapper.get(0).isShow = true; //內容可視狀態
+            content_wrapper.get(0).author = ""; //作者
             content_wrapper.get(0).content = content_wrapper.find(".userContent._5pbx").text(); //內容
             content_wrapper.get(0).fellings = ""; //內容感受
             content_wrapper.get(0).timer_id = 0; //內容 timer id
@@ -83,7 +89,6 @@ function userContent() {
             //timer start
             countSec(0, content_index);
 
-
             var content_profile_id = content_wrapper.find('div.clearfix._5x46 a').data('hovercard').split('=')[1]; //內容帳號 id
             var content_owner = content_wrapper.find('div.clearfix._5x46').find('span.fwb a:eq(0)').text(); //內容擁有者 name
             var content_fellings = content_wrapper.find("span.fcg:eq(0)").text().replace(content_owner, "").trim(); //內容感受
@@ -92,16 +97,29 @@ function userContent() {
             } else {
                 var profile_name = content_owner + " : ";
             }
+            content_wrapper.get(0).author = content_owner; //作者
+
             if (content_fellings) {
-                content_wrapper.get(0).fellings = content_fellings;
+                content_wrapper.get(0).fellings = content_fellings; //感受
             }
             //alert inform
+            alertify.set({ delay: 10000 }); // 設定彈出視窗秒數
             alertify.success(profile_name + content_wrapper.get(0).content);
+            console.log(content_wrapper.get(0));
+
+            //get java 演算法
+            $.get("https://localhost:8443/HelloSVM/hello.do", function(data) {
+                // console.log(data.readline[0]);
+                alertify.success(data.readline[content_index]);
+            }, "json");
 
             //加上已讀標簽， index + 1
             content_index ++;
             content_wrapper.addClass("has_read");
         }
+    } else {
+        //如果沒有讀到 data-insert-position ，繼續累加 index
+        // content_index ++;
     }
 }
 
@@ -132,6 +150,7 @@ function ckip(index) {
                 var checked_value = $('[id^=radio_]:eq(' + i + ')').find('input[name^=optionsRadios]:checked').val();
                 var data_index = $('[id^=radio_]:eq(' + i + ')').data('index');
 
+                // console.log(content_obj_list);
                 alertify.log("對「" + content_obj_list[data_index].content.substr(0, 10) + "」的感受 : " + checked_value);
                 content_obj_list[data_index].fellings = checked_value; //設定感受
                 //countSec(content_obj_list[data_index].timer_count, data_index); //重新啟動目前內容的 timer
@@ -171,13 +190,13 @@ function ckip(index) {
  */
 function countSec(init_number, index) {
     var count_number = init_number;
-    var count_limit = 120; //送出 ckip 等待秒數
+    var count_limit = 5; //送出 ckip 等待秒數
     var count_speed = 1000; //timer 速率
     var count_id;
 
     var countDown = function(index) {
         count_number ++;
-        //console.log("第" + index + "次計數 : " + count_number);
+        // console.log("第" + index + "次計數 : " + count_number);
         if (count_number == count_limit) {
             //呼叫 ckip
             if (ckip_status) {
