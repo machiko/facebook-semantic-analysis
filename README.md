@@ -29,3 +29,9 @@ discuss :
 1. server run java, and response
 
 程式碼架構 https://www.evernote.com/shard/s88/sh/f6cecc1d-bfd4-40d5-bcf2-c432196774f9/b99866d80821d20390252170607dcf09
+
+###20140721 bug tracker :
+
+1. 感受內容 no match
+2. 紀錄 發文者
+3. alert 停留時間設置
