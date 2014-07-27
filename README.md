@@ -35,3 +35,7 @@ discuss :
 1. 感受內容 no match
 2. 紀錄 發文者
 3. alert 停留時間設置
+
+###20140724 issue :
+
+1. ckip 換成 mmseg4j 斷詞系統 http://function1122.blogspot.tw/2010/10/mmseg4j-java-55.html 
