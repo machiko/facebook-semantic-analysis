@@ -71,21 +71,23 @@ function userContent() {
     //須有此物件才進行判斷，因為 fb 會在可視的內容物件上面加上 data-insertion-position 的 屬性
     // console.log(content_wrapper.length);
     if (content_wrapper.length > 0) {
+        //init content object
+        var content_obj = {};
         var content_wrapper_offsetTop = content_wrapper.get(0).offsetTop;
         var content_wrapper_offsetHeight = content_wrapper.get(0).offsetHeight;
 
         if ((content_wrapper_offsetTop + content_wrapper_offsetHeight < scroll_top + visual_range)) {
             //加上新屬性
-            content_wrapper.get(0).index = content_index; //內容 index
-            content_wrapper.get(0).isShow = true; //內容可視狀態
-            content_wrapper.get(0).author = ""; //作者
-            content_wrapper.get(0).content = content_wrapper.find(".userContent._5pbx").text(); //內容
-            content_wrapper.get(0).fellings = ""; //內容感受
-            content_wrapper.get(0).timer_id = 0; //內容 timer id
-            content_wrapper.get(0).timer_count = 0; //內容 timer 停留秒數
-            content_wrapper.get(0).ckip = ""; //內容 ckip
-            content_wrapper.get(0).ckip_status = false; //內容送出 ckip 狀態
-            content_obj_list.push(content_wrapper.get(0));
+            content_obj.index = content_index; //內容 index
+            content_obj.isShow = true; //內容可視狀態
+            content_obj.author = ""; //作者
+            content_obj.content = content_wrapper.find(".userContent._5pbx").text(); //內容
+            content_obj.fellings = ""; //內容感受
+            content_obj.timer_id = 0; //內容 timer id
+            content_obj.timer_count = 0; //內容 timer 停留秒數
+            content_obj.ckip = ""; //內容 ckip
+            content_obj.ckip_status = false; //內容送出 ckip 狀態
+            content_obj_list.push(content_obj);
             //timer start
             countSec(0, content_index);
 
@@ -97,21 +99,29 @@ function userContent() {
             } else {
                 var profile_name = content_owner + " : ";
             }
-            content_wrapper.get(0).author = content_owner; //作者
+            content_obj.author = content_owner; //作者
 
             if (content_fellings) {
-                content_wrapper.get(0).fellings = content_fellings; //感受
+                content_obj.fellings = content_fellings; //感受
             }
             //alert inform
             alertify.set({ delay: 10000 }); // 設定彈出視窗秒數
-            alertify.success(profile_name + content_wrapper.get(0).content);
-            console.log(content_wrapper.get(0));
+            alertify.success(profile_name + content_obj.content);
+            console.log(content_obj_list[0]);
 
             //get java 演算法，斷詞回饋
             $.get("https://localhost:8443/HelloSVM/hello.do", function(data) {
                 console.log(data.readline[0]);
                 alertify.success(data.readline[content_index]);
             }, "json");
+
+            //回傳 內容 object
+            $.get("https://localhost:8443/HelloSVM/getUsr",
+                {
+                    "gusr": JSON.stringify(content_obj)
+                }, function(data) {
+                    console.log(data);
+                }, "json");
 
             //加上已讀標簽， index + 1
             content_index ++;
