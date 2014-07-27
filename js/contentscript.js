@@ -107,9 +107,9 @@ function userContent() {
             alertify.success(profile_name + content_wrapper.get(0).content);
             console.log(content_wrapper.get(0));
 
-            //get java 演算法
+            //get java 演算法，斷詞回饋
             $.get("https://localhost:8443/HelloSVM/hello.do", function(data) {
-                // console.log(data.readline[0]);
+                console.log(data.readline[0]);
                 alertify.success(data.readline[content_index]);
             }, "json");
 
@@ -124,10 +124,72 @@ function userContent() {
 }
 
 /**
- * ckip
+ * ckip 斷詞
  */
 function ckip(index) {
     $.get("http://reyes.synology.me/ckip/ckip-test-driver.php",
+    {
+        "text": content_obj_list[index].content
+    },
+    function(data) {
+        console.log(data);
+        var ckip_text = "";
+        for (var i = 0, data_len = data.length; i < data_len; i++) {
+            ckip_text += data[i].term + ":" + data[i].tag + "\n";
+        }
+
+        alertify.log(ckip_text);
+        content_obj_list[index].ckip = ckip_text; //設定 ckip
+    },"json");
+
+    window.clearInterval(content_obj_list[index].timer_id); //停止目前內容的 timer
+
+    if ($('.alertify-message').children().length == 0) {
+        alertify.alert("感受調查", function() {
+            for (var i = 0; i < $('[id^=radio_]').length; i++) {
+                var checked_value = $('[id^=radio_]:eq(' + i + ')').find('input[name^=optionsRadios]:checked').val();
+                var data_index = $('[id^=radio_]:eq(' + i + ')').data('index');
+
+                // console.log(content_obj_list);
+                alertify.log("對「" + content_obj_list[data_index].content.substr(0, 10) + "」的感受 : " + checked_value);
+                content_obj_list[data_index].fellings = checked_value; //設定感受
+                //countSec(content_obj_list[data_index].timer_count, data_index); //重新啟動目前內容的 timer
+                countSec(0, data_index); //重新啟動目前內容的 timer
+                ckip_status = true; //重新啟動 ckip
+            }
+
+            $('.alertify-message').html('');
+        });
+    }
+
+    var html_content = '\
+        <div id="radio_' + index + '" data-index="' + index + '">\
+        <p>請問您對於「' + content_obj_list[index].content + '」的感受是?</p>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="開心" checked>\
+          開心\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="難過">\
+          難過\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          新奇\
+        </label>\
+        </div>\
+    ';
+
+    $('.alertify-message').append($.parseHTML(html_content));
+    ckip_status = false; //避免連續送出 request
+    //alertify.success("第" + index + "內容送出 ckip");
+}
+
+/**
+ * segChinese 斷詞
+ */
+function segChinese(index) {
+    $.get("https://localhost:8443/HelloSVM/SegChinese",
     {
         "text": content_obj_list[index].content
     },
@@ -198,12 +260,13 @@ function countSec(init_number, index) {
         count_number ++;
         // console.log("第" + index + "次計數 : " + count_number);
         if (count_number == count_limit) {
-            //呼叫 ckip
+            //呼叫 ckip / seg chinese
             if (ckip_status) {
                 //如有送出過 ckip 則不再 request
                 if (content_obj_list[index].ckip_status == false) {
                     content_obj_list[index].ckip_status = true;
-                    ckip(index);
+                    segChinese(index);
+                    // ckip(index);
                 }
             }
         }
