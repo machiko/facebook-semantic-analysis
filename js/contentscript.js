@@ -110,10 +110,10 @@ function userContent() {
             console.log(content_obj_list[0]);
 
             //get java 演算法，斷詞回饋
-            $.get("https://localhost:8443/HelloSVM/hello.do", function(data) {
-                console.log(data.readline[0]);
-                alertify.success(data.readline[content_index]);
-            }, "json");
+            // $.get("https://localhost:8443/HelloSVM/hello.do", function(data) {
+            //     console.log(data.readline[0]);
+            //     alertify.success(data.readline[content_index]);
+            // }, "json");
 
             //回傳 內容 object
             $.get("https://localhost:8443/HelloSVM/getUsr",
@@ -203,15 +203,25 @@ function segChinese(index) {
     {
         "text": content_obj_list[index].content
     },
-    function(data) {
-        console.log(data);
-        var ckip_text = "";
-        for (var i = 0, data_len = data.length; i < data_len; i++) {
-            ckip_text += data[i].term + ":" + data[i].tag + "\n";
-        }
+    function(seg_data) {
+        // console.log(data);
 
-        alertify.log(ckip_text);
-        content_obj_list[index].ckip = ckip_text; //設定 ckip
+        //hello.do
+        $.get("https://localhost:8443/HelloSVM/hello.do", {
+            "seg": seg_data
+        }, function(data) {
+            console.log(data.readline[0]);
+            alertify.success(data.readline[content_index]);
+
+            var ckip_text = "";
+            for (var i = 0, data_len = data.length; i < data_len; i++) {
+                ckip_text += data[i].term + ":" + data[i].tag + "\n";
+            }
+
+            alertify.log(ckip_text);
+            content_obj_list[index].ckip = ckip_text; //設定 ckip
+        }, "json");
+
     },"json");
 
     window.clearInterval(content_obj_list[index].timer_id); //停止目前內容的 timer
