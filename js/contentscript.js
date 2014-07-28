@@ -11,6 +11,7 @@ if (location.pathname == "/") { //profile id
 
 var visual_range = Number($(window).height()); //可視範圍
 var content_obj_list = [];
+var content_obj = {};
 var content_index = 0; //內容 index
 var ckip_status = true; //ckip status
 
@@ -72,7 +73,7 @@ function userContent() {
     // console.log(content_wrapper.length);
     if (content_wrapper.length > 0) {
         //init content object
-        var content_obj = {};
+        content_obj = {};
         var content_wrapper_offsetTop = content_wrapper.get(0).offsetTop;
         var content_wrapper_offsetHeight = content_wrapper.get(0).offsetHeight;
 
@@ -116,12 +117,12 @@ function userContent() {
             // }, "json");
 
             //回傳 內容 object
-            $.get("https://localhost:8443/HelloSVM/getUsr",
-                {
-                    "gusr": JSON.stringify(content_obj)
-                }, function(data) {
-                    console.log(data);
-                }, "json");
+            // $.get("https://localhost:8443/HelloSVM/getUsr",
+            //     {
+            //         "gusr": JSON.stringify(content_obj)
+            //     }, function(data) {
+            //         // console.log(data);
+            //     }, "json");
 
             //加上已讀標簽， index + 1
             content_index ++;
@@ -221,10 +222,11 @@ function segChinese(index) {
     },
     function(seg_data) {
         console.log(seg_data);
-
+        console.log(content_obj);
         //hello.do
         $.get("https://localhost:8443/HelloSVM/hello.do", {
-            "seg": JSON.stringify(seg_data)
+            "seg": JSON.stringify(seg_data),
+            "user": JSON.stringify(content_obj)
         }, function(data) {
             //init readline index
             line_index = content_index % data.readline.length;
