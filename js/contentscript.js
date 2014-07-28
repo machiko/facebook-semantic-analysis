@@ -181,27 +181,27 @@ function ckip(index) {
           開心\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="難過">\
+          <input type="radio" name="optionsRadios_' + index + '" value="興奮">\
           興奮\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="中性">\
           中性\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="生氣">\
           生氣\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="討厭">\
           討厭\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="擔心">\
           擔心\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="難過">\
           難過\
         </label>\
         </div>\
@@ -271,27 +271,27 @@ function segChinese(index) {
           開心\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="難過">\
+          <input type="radio" name="optionsRadios_' + index + '" value="興奮">\
           興奮\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="中性">\
           中性\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="生氣">\
           生氣\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="討厭">\
           討厭\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="擔心">\
           擔心\
         </label>\
         <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          <input type="radio" name="optionsRadios_' + index + '" value="難過">\
           難過\
         </label>\
         </div>\
