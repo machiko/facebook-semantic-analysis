@@ -204,14 +204,15 @@ function segChinese(index) {
         "text": content_obj_list[index].content
     },
     function(seg_data) {
-        // console.log(data);
+        console.log(seg_data);
 
         //hello.do
         $.get("https://localhost:8443/HelloSVM/hello.do", {
-            "seg": seg_data
+            "seg": JSON.stringify(seg_data)
         }, function(data) {
-            console.log(data.readline[0]);
-            alertify.success(data.readline[content_index]);
+            //init readline index
+            line_index = content_index % data.readline.length;
+            alertify.success(data.readline[line_index]);
 
             var ckip_text = "";
             for (var i = 0, data_len = data.length; i < data_len; i++) {
