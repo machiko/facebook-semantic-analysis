@@ -181,11 +181,27 @@ function ckip(index) {
         </label>\
         <label class="radio">\
           <input type="radio" name="optionsRadios_' + index + '" value="難過">\
-          難過\
+          興奮\
         </label>\
         <label class="radio">\
           <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
-          新奇\
+          中性\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          生氣\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          討厭\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          擔心\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          難過\
         </label>\
         </div>\
     ';
@@ -254,11 +270,27 @@ function segChinese(index) {
         </label>\
         <label class="radio">\
           <input type="radio" name="optionsRadios_' + index + '" value="難過">\
-          難過\
+          興奮\
         </label>\
         <label class="radio">\
           <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
-          新奇\
+          中性\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          生氣\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          討厭\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          擔心\
+        </label>\
+        <label class="radio">\
+          <input type="radio" name="optionsRadios_' + index + '" value="新奇">\
+          難過\
         </label>\
         </div>\
     ';
