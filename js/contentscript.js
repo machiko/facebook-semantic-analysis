@@ -224,22 +224,26 @@ function segChinese(index) {
         console.log(seg_data);
         console.log(content_obj);
         //hello.do
-        $.get("https://localhost:8443/HelloSVM/hello.do", {
-            "seg": JSON.stringify(seg_data),
-            "user": JSON.stringify(content_obj)
-        }, function(data) {
-            //init readline index
-            line_index = content_index % data.readline.length;
-            alertify.success(data.readline[line_index]);
+        var hello_timeout = 3000; //呼叫 hello api 的延遲時間
 
-            var ckip_text = "";
-            for (var i = 0, data_len = data.length; i < data_len; i++) {
-                ckip_text += data[i].term + ":" + data[i].tag + "\n";
-            }
+        setTimeout(function() {
+            $.get("https://localhost:8443/HelloSVM/hello.do", {
+                "seg": JSON.stringify(seg_data),
+                "user": JSON.stringify(content_obj)
+            }, function(data) {
+                //init readline index
+                line_index = content_index % data.readline.length;
+                alertify.success(data.readline[line_index]);
 
-            alertify.log(ckip_text);
-            content_obj_list[index].ckip = ckip_text; //設定 ckip
-        }, "json");
+                var ckip_text = "";
+                for (var i = 0, data_len = data.length; i < data_len; i++) {
+                    ckip_text += data[i].term + ":" + data[i].tag + "\n";
+                }
+
+                // alertify.log(ckip_text);
+                content_obj_list[index].ckip = ckip_text; //設定 ckip
+            }, "json");
+        }, hello_timeout);
 
     },"json");
 
