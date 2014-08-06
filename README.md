@@ -39,3 +39,7 @@ discuss :
 ###20140724 issue :
 
 1. ckip 換成 mmseg4j 斷詞系統 http://function1122.blogspot.tw/2010/10/mmseg4j-java-55.html 
+
+###20140806 issue :
+
+1. 回饋觸發動作改至前端按按鍵0~9觸發
