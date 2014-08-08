@@ -23,3 +23,25 @@ discuss :
 ###20140406 : 
 
 1. 當已看過的內容，離開後，再次觀看。此時計時器是否繼續或是將計時器重新歸零，兩分鐘後再送出 CKIP?
+
+###20140629 :
+
+1. server run java, and response
+
+程式碼架構 https://www.evernote.com/shard/s88/sh/f6cecc1d-bfd4-40d5-bcf2-c432196774f9/b99866d80821d20390252170607dcf09
+
+###20140721 bug tracker :
+
+1. 感受內容 no match
+2. 紀錄 發文者
+3. alert 停留時間設置
+
+###20140724 issue :
+
+1. ckip 換成 mmseg4j 斷詞系統 http://function1122.blogspot.tw/2010/10/mmseg4j-java-55.html 
+
+###20140806 issue :
+
+1. 前端輸入數字以後，才會彈出回饋。輸入的數字會傳到後端
+2. 彈出回饋視窗停留。直到滑鼠點擊視窗以後才消失
+3. 感受調查拿掉
