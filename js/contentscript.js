@@ -42,12 +42,17 @@ function userContent() {
     var scroll_top = Number($(document).scrollTop()); //現在 scroll 位置
     var content_wrapper = $("div[data-insertion-position]").eq(content_index);
     // console.log(content_index);
+    // console.log(content_obj_list);
 
     for (var i = 0; i < content_obj_list.length; i++) {
 
-        var offset_top = Number(content_obj_list[i].offsetTop); //區塊 top 位置
-        var offset_height = Number(content_obj_list[i].offsetHeight); //區塊高度
-
+        var offset_top = Number(content_obj_list[i].content_wrapper.offsetTop); //區塊 top 位置
+        var offset_height = Number(content_obj_list[i].content_wrapper.offsetHeight); //區塊高度
+        // console.log(offset_top);
+        // console.log(offset_height);
+        // console.log(scroll_top);
+        // console.log("offset_top + offset_height < scroll_top" + offset_top + offset_height < scroll_top);
+        //console.log("offset_top + offset_height > scroll_top + visual_range : " + offset_top + offset_height > scroll_top + visual_range);
         //判斷內容是否可視
         if (offset_top + offset_height < scroll_top || offset_top + offset_height > scroll_top + visual_range ) {
             if (content_obj_list[i].isShow == true) {
@@ -57,14 +62,14 @@ function userContent() {
                 // if (content_wrapper.length == 0) {
                 //     content_index ++;
                 // }
-                window.clearInterval(content_obj_list[i].timer_id); //停止 timer
+                // window.clearInterval(content_obj_list[i].timer_id); //停止 timer
             }
         } else {
             if (content_obj_list[i].isShow == false) {
                 content_obj_list[i].isShow = true;
 
                 // console.log("第" + i + "個內容 is show :" + content_obj_list[i].isShow);
-                countSec(content_obj_list[i].timer_count, i); //重新啟動 timer
+                // countSec(content_obj_list[i].timer_count, i); //重新啟動 timer
             }
         }
     }
@@ -88,9 +93,10 @@ function userContent() {
             content_obj.timer_count = 0; //內容 timer 停留秒數
             content_obj.ckip = ""; //內容 ckip
             content_obj.ckip_status = false; //內容送出 ckip 狀態
+            content_obj.content_wrapper = content_wrapper.get(0);
             content_obj_list.push(content_obj);
             //timer start
-            countSec(0, content_index);
+            // countSec(0, content_index);
 
             var content_profile_id = content_wrapper.find('div.clearfix._5x46 a').data('hovercard').split('=')[1]; //內容帳號 id
             var content_owner = content_wrapper.find('div.clearfix._5x46').find('span.fwb a:eq(0)').text(); //內容擁有者 name
@@ -108,21 +114,7 @@ function userContent() {
             //alert inform
             alertify.set({ delay: 10000 }); // 設定彈出視窗秒數
             alertify.success(profile_name + content_obj.content);
-            console.log(content_obj_list[0]);
-
-            //get java 演算法，斷詞回饋
-            // $.get("https://localhost:8443/HelloSVM/hello.do", function(data) {
-            //     console.log(data.readline[0]);
-            //     alertify.success(data.readline[content_index]);
-            // }, "json");
-
-            //回傳 內容 object
-            // $.get("https://localhost:8443/HelloSVM/getUsr",
-            //     {
-            //         "gusr": JSON.stringify(content_obj)
-            //     }, function(data) {
-            //         // console.log(data);
-            //     }, "json");
+            // console.log(content_obj_list[0]);
 
             //加上已讀標簽， index + 1
             content_index ++;
@@ -165,7 +157,7 @@ function ckip(index) {
                 alertify.log("對「" + content_obj_list[data_index].content.substr(0, 10) + "」的感受 : " + checked_value);
                 content_obj_list[data_index].fellings = checked_value; //設定感受
                 //countSec(content_obj_list[data_index].timer_count, data_index); //重新啟動目前內容的 timer
-                countSec(0, data_index); //重新啟動目前內容的 timer
+                // countSec(0, data_index); //重新啟動目前內容的 timer
                 ckip_status = true; //重新啟動 ckip
             }
 
@@ -215,94 +207,45 @@ function ckip(index) {
 /**
  * segChinese 斷詞
  */
-function segChinese(index) {
+function segChinese(index, key_code) {
     $.get("https://localhost:8443/HelloSVM/SegChinese",
     {
         "text": content_obj_list[index].content
     },
     function(seg_data) {
-        console.log(seg_data);
-        console.log(content_obj);
-        //hello.do
-        var hello_timeout = 3000; //呼叫 hello api 的延遲時間
+        // var seg_content_obj = $(content_obj).clone();
+        var seg_content_obj = $(true, {}, content_obj);
+        delete seg_content_obj.content_wrapper;
+        // console.log(seg_data);
+        // console.log(content_obj);
+        // console.log(JSON.stringify(seg_content_obj));
+        alertify.log("送出分析", 'error');
 
+        //hello.do
+        var hello_timeout = 0; //呼叫 hello api 的延遲時間
         setTimeout(function() {
             $.get("https://localhost:8443/HelloSVM/hello.do", {
                 "seg": JSON.stringify(seg_data),
-                "user": JSON.stringify(content_obj)
+                "user": JSON.stringify(seg_content_obj),
+                "keycode": key_code
             }, function(data) {
+                // console.log(data);
                 //init readline index
                 line_index = content_index % data.readline.length;
-                alertify.success(data.readline[line_index]);
+                alertify.log(data.readline[line_index], 'log', 0);
 
-                var ckip_text = "";
-                for (var i = 0, data_len = data.length; i < data_len; i++) {
-                    ckip_text += data[i].term + ":" + data[i].tag + "\n";
-                }
+                // var ckip_text = "";
+                // for (var i = 0, data_len = data.length; i < data_len; i++) {
+                //     ckip_text += data[i].term + ":" + data[i].tag + "\n";
+                // }
 
                 // alertify.log(ckip_text);
-                content_obj_list[index].ckip = ckip_text; //設定 ckip
+                // content_obj_list[index].ckip = ckip_text; //設定 ckip
+                content_obj_list[index].ckip = data.readline[line_index]; //設定 ckip
             }, "json");
         }, hello_timeout);
 
     },"json");
-
-    window.clearInterval(content_obj_list[index].timer_id); //停止目前內容的 timer
-
-    if ($('.alertify-message').children().length == 0) {
-        alertify.alert("感受調查", function() {
-            for (var i = 0; i < $('[id^=radio_]').length; i++) {
-                var checked_value = $('[id^=radio_]:eq(' + i + ')').find('input[name^=optionsRadios]:checked').val();
-                var data_index = $('[id^=radio_]:eq(' + i + ')').data('index');
-
-                // console.log(content_obj_list);
-                alertify.log("對「" + content_obj_list[data_index].content.substr(0, 10) + "」的感受 : " + checked_value);
-                content_obj_list[data_index].fellings = checked_value; //設定感受
-                //countSec(content_obj_list[data_index].timer_count, data_index); //重新啟動目前內容的 timer
-                countSec(0, data_index); //重新啟動目前內容的 timer
-                ckip_status = true; //重新啟動 ckip
-            }
-
-            $('.alertify-message').html('');
-        });
-    }
-
-    var html_content = '\
-        <div id="radio_' + index + '" data-index="' + index + '">\
-        <p>請問您對於「' + content_obj_list[index].content + '」的感受是?</p>\
-        <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="開心" checked>\
-          開心\
-        </label>\
-        <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="興奮">\
-          興奮\
-        </label>\
-        <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="中性">\
-          中性\
-        </label>\
-        <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="生氣">\
-          生氣\
-        </label>\
-        <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="討厭">\
-          討厭\
-        </label>\
-        <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="擔心">\
-          擔心\
-        </label>\
-        <label class="radio">\
-          <input type="radio" name="optionsRadios_' + index + '" value="難過">\
-          難過\
-        </label>\
-        </div>\
-    ';
-
-    $('.alertify-message').append($.parseHTML(html_content));
-    ckip_status = false; //避免連續送出 request
     //alertify.success("第" + index + "內容送出 ckip");
 }
 
@@ -356,4 +299,25 @@ addEvent(window, 'scroll', function(event) {
         userContent();
     }
 
+});
+
+/**
+ * keyboard press 0~9
+ */
+
+$(window).keyup(function(e) {
+    var key_code = e.keyCode;
+    // console.log(content_obj_list);
+    // console.log(e.keyCode);
+    // 0~9' keycode : 48 ~ 57
+    if (key_code >= 48 && key_code <= 57) {
+        for (var i = 0; i < content_obj_list.length; i++) {
+            if (content_obj_list[i].isShow == true) {
+                //將第一則可視的事件送出 ckip
+                // console.log(content_obj_list[i].content);
+                segChinese(i, key_code);
+                return;
+            }
+        }
+    }
 });
