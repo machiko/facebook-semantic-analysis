@@ -1,0 +1,57 @@
+{
+	"extName":
+	{
+		"message": "現在天氣怎麼樣",
+		"description":"擴充套件名稱"
+	},
+	"extDescription":
+	{
+		"message": "顯示所在地現在的天氣狀態",
+		"description":"擴充套件描述"
+	},
+	"locale":
+	{
+		"message": "zh-tw",
+		"description":"要傳送給Google Weather API的語系編碼"
+	},
+	"loading":
+	{
+		"message": "資料載入中...",
+		"description":"載入資料時的popup內容"
+	},
+	"unable_to_load_data":
+	{
+		"message": "無法載入資料。",
+		"description":"資料載入錯誤時的popup內容"
+	},
+	"unable_to_locate_your_position":
+	{
+		"message": "無法確定目前所在位置。",
+		"description":"無法定位時的popup內容"
+	},
+	"temperature_unit":
+	{
+		"message": "溫度單位",
+		"description":"用於options.html"
+	},
+	"celsius":{
+		"message": "攝氏",
+		"description":"溫度單位，用於options.html"
+	},
+	"fahrenheit":{
+		"message": "華氏",
+		"description":"溫度單位，用於options.html"
+	},
+	"save":{
+		"message": "儲存",
+		"description":"儲存設定"
+	},
+	"option_saved":{
+		"message": "儲存完成。",
+		"description":"儲存完成"
+	},
+	"click_here_to_close":{
+		"message": "按此關閉",
+		"description":"按此關閉"
+	}
+}

@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<link type="text/css" rel="stylesheet" href="style.css" /> 
+<script type="text/javascript" src="jquery.min.js"></script> 
+<script>
+var current;
+var errorCode;
+function renderPage()
+{
+    current=chrome.extension.getBackgroundPage().current;
+    errorCode=chrome.extension.getBackgroundPage().errorCode;
+    if(current)
+    {
+        var temp_mode=localStorage["temperature_mode"];
+        if(!temp_mode)
+        {
+            temp_mode="C";
+        }
+
+        switch(temp_mode){
+            case "C":
+                $("#temp").html('<img src='+current.icon+'>'+current.temp_c);
+                break;
+
+            case "F":
+                $("#temp").html('<img src='+current.icon+'>'+current.temp_f);
+                break;
+        }
+        $("#detail").html(current.condition+'<br>'+current.humidity+'<br>'+current.wind_condition);
+    }
+    else
+    {
+        switch(errorCode){
+            case "unable_to_locate_your_position":
+                $("#current").html(chrome.i18n.getMessage("unable_to_locate_your_position"));
+                break;
+            
+            case "unable_to_load_data":
+                $("#current").html(chrome.i18n.getMessage("unable_to_load_data"));
+                break;
+            
+            default:
+                $("#current").html(chrome.i18n.getMessage("loading"));
+        }
+    }
+}
+</script>
+</head>
+<body onload="renderPage();">
+<div id="current" style="width: 160px"><div id="temp"></div><div id="detail"></div></div>
+</body> 
+</html>

@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<script>
+
+var errorCode;
+var lat;
+var lng;
+
+function getCurrentLocation()
+{
+    navigator.geolocation.getCurrentPosition(success, error);
+}
+
+function success(position)
+{
+    console.log(position);
+    lat=Math.round(position.coords.latitude*1000000);
+    lng=Math.round(position.coords.longitude*1000000);
+}
+
+function error(msg)
+{
+    console.log(msg);
+    chrome.browserAction.setBadgeText({text:"?"});
+    errorCode="unable_to_locate_your_position";
+}
+
+getCurrentLocation(); 
+
+</script>
+</head>
+</html>

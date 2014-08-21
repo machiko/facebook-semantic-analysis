@@ -1,0 +1,23 @@
+{
+  "name": "現在天氣怎麼樣",
+  "version": "0.5",
+  "description": "顯示所在地現在的天氣狀態",
+  "icons": {
+	    "16": "images/icon_16.png",
+		"32": "images/icon_32.png",
+		"64": "images/icon_64.png",	
+		"128": "images/icon_128.png"
+  },
+  "background_page": "background.html",
+  "popup": "popup.html",
+  "permissions": [
+ 	"http://www.google.com/ig/*",
+	"http://img0.gmodules.com/ig/images/weather/",
+	"geolocation"
+  ],
+  "browser_action": {
+	  "default_icon": "images/loading.png",
+      "default_title": "現在天氣怎麼樣",
+      "default_popup": "popup.html"
+  }
+}

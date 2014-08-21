@@ -308,9 +308,9 @@ addEvent(window, 'scroll', function(event) {
 $(window).keyup(function(e) {
     var key_code = e.keyCode;
     // console.log(content_obj_list);
-    // console.log(e.keyCode);
     // 0~9' keycode : 48 ~ 57
     if (key_code >= 48 && key_code <= 57) {
+        console.log(e.keyCode);
         for (var i = 0; i < content_obj_list.length; i++) {
             if (content_obj_list[i].isShow == true) {
                 //將第一則可視的事件送出 ckip

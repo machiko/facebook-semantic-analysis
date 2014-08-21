@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<link type="text/css" rel="stylesheet" href="style.css" /> 
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+
+function saveOption()
+{
+    if(localStorage["temperature_mode"] != $('input[name=temp_mode]:checked').val())
+    {
+        localStorage["temperature_mode"] = $('input[name=temp_mode]:checked').val();
+        chrome.extension.getBackgroundPage().getWeather();
+    }
+
+    console.log(localStorage["temperature_mode"]);
+    $("#status").html(chrome.i18n.getMessage("option_saved")+"<a href='javascript:window.close();'>"+chrome.i18n.getMessage("click_here_to_close")+"</a>");
+}
+
+function restoreOption()
+{
+    var temp_mode=localStorage["temperature_mode"];
+    if(!temp_mode)
+    {
+        return;
+    }else
+    {
+        switch(temp_mode)
+        {
+            case "C":
+                $("input[name=temp_mode]")[0].checked=true;
+                break;
+
+            case "F":
+                $("input[name=temp_mode]")[1].checked=true;
+                break;
+
+            default:
+                console.log("error");
+        }
+    }
+}
+
+function renderPage()
+{
+    $("#temperature_scale").html(chrome.i18n.getMessage("temperature_scale"));
+    $("#celsius").html(chrome.i18n.getMessage("celsius"));
+    $("#fahrenheit").html(chrome.i18n.getMessage("fahrenheit"));
+    $("#save").html(chrome.i18n.getMessage("save"));
+}
+</script>
+</head>
+<body onload="restoreOption();renderPage();">
+<span id="temperature_scale"></span><input type="radio" name="temp_mode" value="C" checked><span id="celsius"></span> <input type="radio" name="temp_mode" value="F"><span id="fahrenheit"></span><br>
+<button onclick="saveOption();"><span id="save"></span></button>
+<div id="status"></div>
+</body> 
+</html>

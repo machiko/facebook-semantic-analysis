@@ -1,0 +1,18 @@
+body
+{
+  font-size: 14px;
+  color: #333;
+}
+
+img
+{
+  padding-right: 8px;
+}
+
+#temp
+{
+  color: #333;
+  font-size: 48px;
+  font-family: Arial;
+  text-shadow:3px 3px 3px #EEE;
+}
